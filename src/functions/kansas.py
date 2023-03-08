@@ -1,9 +1,11 @@
+# Putting the imports outside the function instead. This helps to avoid importing the same module 
+# multiple times if the function is called multiple times.
+
+from bs4 import BeautifulSoup, SoupStrainer
+import pandas as pd
+import re
+
 def kansas(input_path):
-
-    from bs4 import BeautifulSoup, SoupStrainer
-    import pandas as pd
-    import re
-
 
     strainer = SoupStrainer('span', attrs={"id": \
                                        [re.compile('lblContributor.*'), re.compile('lblAddress.*'), re.compile('lblCity.*'), re.compile('lblState.*'), re.compile('lblZip.*'), re.compile('lblDate.*'), re.compile('lblAmount.*')]})
