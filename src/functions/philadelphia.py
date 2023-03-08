@@ -1,6 +1,10 @@
+# Putting the imports outside the function instead. This helps to avoid importing the same module 
+# multiple times if the function is called multiple times.
+
+import requests
+import pandas as pd
+
 def philadelphia(candidate):
-    import requests
-    import pandas as pd
 
     good_names = ["donation_date", "donation_amount", "full_name", "addr1", "city", "state", "zip", \
     "full_address", "first_name", "middle_name", "last_name", \
