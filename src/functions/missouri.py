@@ -15,9 +15,10 @@ def missouri(input_path):
         pandas.DataFrame: a DataFrame containing the contents of the HTML file
    
     """
-
-
-    with open(input_path) as html:
-        df = pd.read_html(html)[0]
+    try:
+        with open(input_path) as html:
+            df = pd.read_html(html)[0]
+    except ValueError:
+        return "Error: could not parse HTML"
 
     return df
