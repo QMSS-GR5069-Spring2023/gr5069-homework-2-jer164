@@ -10,44 +10,35 @@ def kansas(input_path):
     with open(input_path) as html:
         soup = BeautifulSoup(html, "lxml", parse_only=strainer)
 
-    names = []
-    addresses = []
-    cities = []
-    states = []
-    zips = []
-    dates = []
-    amounts = []
-    donors_df = pd.DataFrame()
-
-    for name in soup.find_all('span', id = re.compile('lblContributor.*')):
-        names.append(name.text)
-
-    for address in soup.find_all('span', id = re.compile('lblAddress_.*')):
-        addresses.append(address.text)
-
-    for city in soup.find_all('span', id = re.compile('lblCity.*')):
-        cities.append(city.text)
-
-    for state in soup.find_all('span', id = re.compile('lblState.*')):
-        states.append(state.text)
-
-    for zipcode in soup.find_all('span', id = re.compile('lblZip.*')):
-        zips.append(zipcode.text)
-
-    for date in soup.find_all('span', id = re.compile('lblDate.*')):
-        dates.append(date.text)
-
-    for amount in soup.find_all('span', id = re.compile('lblAmount.*')):
-        amounts.append(amount.text)
-
-    donors_df['full_name'] = names
-    donors_df['addr1'] = addresses
-    donors_df['city'] = cities
-    donors_df['state'] = states
-    donors_df['zip'] = zips
-    donors_df['donation_date'] = dates
-    donors_df['donation_amount'] = [s.lstrip("$") for s in amounts]
     
-    donors_df = donors_df.drop_duplicates(subset=["full_name"], keep="first")
+    # The code below was changed into a list comprehension for more concise code:
+
+    names = [name.text for name in soup.find_all('span', id=re.compile('lblContributor.*'))]
+    addresses = [address.text for address in soup.find_all('span', id=re.compile('lblAddress_.*'))]
+    cities = [city.text for city in soup.find_all('span', id=re.compile('lblCity.*'))]
+    states = [state.text for state in soup.find_all('span', id=re.compile('lblState.*'))]
+    zips = [zipcode.text for zipcode in soup.find_all('span', id=re.compile('lblZip.*'))]
+    dates = [date.text for date in soup.find_all('span', id=re.compile('lblDate.*'))]
+    amounts = [amount.text for amount in soup.find_all('span', id=re.compile('lblAmount.*'))]
+
+
+    # The code below was changed to create a dataframe in a more effcient way:
+
+    donors_df = pd.DataFrame({
+        'full_name': names,
+        'addr1': addresses,
+        'city': cities,
+        'state': states,
+        'zip': zips,
+        'donation_date': dates,
+        'donation_amount': [s.lstrip("$") for s in amounts]
+    })
+
+    donors_df.drop_duplicates(subset=["full_name"], keep="first", inplace=True)
 
     return donors_df
+
+
+
+
+
