@@ -6,6 +6,18 @@ import pandas as pd
 
 def philadelphia(candidate):
 
+    """
+    Retrieve campaign finance transaction data for a given candidate from the City of Philadelphia's campaign finance API.
+
+    Parameters:
+        candidate (str): The name of the candidate to search for.
+
+    Returns:
+        DataFrame: A DataFrame containing the transaction data, with columns for donation date, amount,
+        full name, address, city, state, ZIP code, phone number 1 and email address 2.
+
+    """
+
     good_names = ["donation_date", "donation_amount", "full_name", "addr1", "city", "state", "zip", \
     "full_address", "first_name", "middle_name", "last_name", \
     "addr2",	"phone1", "phone2", "email1", "email2"]
@@ -23,6 +35,8 @@ def philadelphia(candidate):
     for col in good_names:
         if col not in df.columns.values:
             df[col] = ""
+
+            df = df[[col for col in df.columns if col in good_names]]
 
     df['donation_date'] = df['donation_date'].astype(str).str[0:10]
     
