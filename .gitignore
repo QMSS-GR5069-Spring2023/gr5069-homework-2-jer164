@@ -185,3 +185,4 @@ docs/
 
 # translation temp files
 po/*~
+data/
